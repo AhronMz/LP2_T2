@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import org.hibernate.annotations.DynamicInsert;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,29 +21,41 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "tbl_orden_compra")
-@Getter @Setter
-@AllArgsConstructor @NoArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @DynamicInsert
 public class OrdenCompraMezaDavid {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="nro_orden")
+	@Column(name = "nro_orden")
 	private Integer nroOrden;
-	
-	@Column(name="monto")
+
+	@Column(name = "monto")
 	private BigDecimal monto;
-	
-	@Column(name="direccion_entrega")
+
+	@Column(name = "direccion_entrega")
 	private String direccionEntrega;
 	
-	@Column(name="fecha_entrega")
-	private LocalDate fechaEntrega;	
-	
-	@Column(name="estado")
-	private String estado;	
-	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Column(name = "fecha_entrega")
+	private LocalDate fechaEntrega;
+
+	@Column(name = "estado")
+	private String estado;
+
 	@JoinColumn(name = "id_proveedor")
 	@ManyToOne
 	private ProveedorMezaDavid proveedor;
-	
+
+	public String getEstadoTexto() {
+		if ("P".equalsIgnoreCase(estado)) {
+			return "Pendiente";
+		} else if ("C".equalsIgnoreCase(estado)) {
+			return "Completado";
+		} else {
+			return "Anulado";
+		}
+	}
 }

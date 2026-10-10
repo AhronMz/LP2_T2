@@ -17,30 +17,34 @@
 				<h1 class="card-title text-center">Orden de compra nueva</h1>
 				<div class="row d-flex justify-content-center">
 					<div class="col-md-6">
-						<form class="row g-2" method="post" novalidate>
+						<form th:object="${orden}" th:action="@{/inventario/guardar}" class="row g-2" method="post" novalidate>
 							<div class="col-md-6 position-relative">
 								<label for="proveedor" class="form-label">Proveedor</label>
-								<select class="form-select" id="proveedor" name="proveedor" required>
-									<option value="">--Seleccione--</option>
+								<select th:field="*{proveedor.idProveedor}" class="form-select" id="proveedor" name="proveedor" required>
+									<option  value="">--Seleccione--</option>
+									<option th:each="i:${slcProveedor}" 
+											th:value="${i.idProveedor}" 
+											th:text="${i.ruc + ' - ' + i.razonSocial}"
+									></option>
 								</select>
 							</div>
 							<div class="col-md-6 position-relative">
 								<label for="monto" class="form-label">Monto</label>
-								<input type="number" class="form-control" step="0.01" placeholder="0.00" id="monto"
+								<input th:field="*{monto}" type="number" class="form-control" step="0.01" placeholder="0.00" id="monto"
 									name="monto" required>
 							</div>
 							<div class="col-md-12 position-relative">
 								<label for="direccionEntrega" class="form-label">Dirección de entrega</label>
-								<input type="text" class="form-control" placeholder="Ingrese una dirección de entrega"
+								<input th:field="*{direccionEntrega}" type="text" class="form-control" placeholder="Ingrese una dirección de entrega"
 									id="direccionEntrega" name="direccionEntrega" required>
 							</div>
 							<div class="col-md-6 position-relative">
 								<label for="fechaEntrega" class="form-label">Fecha de entrega</label>
-								<input type="date" class="form-control" id="fechaEntrega" name="fechaEntrega" required>
+								<input th:field="*{fechaEntrega}" type="date" class="form-control" id="fechaEntrega" name="fechaEntrega" required>
 							</div>
 							<div class="col-md-12 d-flex justify-content-between">
 								<!-- Botón Regresar -->
-								<a href="#" class="btn btn-outline-dark">
+								<a th:href="@{/inventario/listado}" class="btn btn-outline-dark">
 									<i class="fa-solid fa-reply"></i> Regresar
 								</a>
 								<!-- Botón Registrar -->

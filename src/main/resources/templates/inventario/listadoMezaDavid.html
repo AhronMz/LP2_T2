@@ -19,7 +19,7 @@
 						<h1 class="card-title">Listado de órdenes de compra</h1>
 					</div>
 					<div class="col-md-2">
-						<a href="#" class="btn btn-success w-100"> <i class="fa-solid fa-plus"></i>
+						<a th:href="@{/inventario/nuevo}" class="btn btn-success w-100"> <i class="fa-solid fa-plus"></i>
 							Nuevo
 						</a>
 					</div>
@@ -40,17 +40,17 @@
 							</tr>
 						</thead>
 						<tbody class="table-secondary text-nowrap">
-							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
+							<tr th:each="i:${lstIventario}">
+								<td th:text="${i.nroOrden}" class="text-center"></td>
+								<td th:text="${i.fechaEntrega}" class="text-center"></td>
+								<td th:text="${i.direccionEntrega}"></td>
+								<td th:text="${i.proveedor.razonSocial}"></td>
+								<td th:text="${i.proveedor.rubro.denominacion}"></td>
+								<td th:text="${i.proveedor.paginaWeb}"></td>
+								<td th:text="${#numbers.formatCurrency(i.monto)}"class="text-end"></td>
+								<td th:text="${i.estadoTexto}"></td>
 								<td class="text-center align-middle">
-									<a href="#" class="btn btn-outline-primary" title="Editar">
+									<a th:href="@{/inventario/edicion/{id}(id=${i.nroOrden})}" class="btn btn-outline-primary" title="Editar">
 										<i class="fa-regular fa-pen-to-square"></i>
 									</a>
 								</td>
@@ -61,6 +61,7 @@
 			</div>
 		</div>
 	</div>
+	<th:block th:utext="${alert}" ></th:block>
 </body>
 
 </html>
